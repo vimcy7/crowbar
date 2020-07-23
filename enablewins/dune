@@ -1,0 +1,3 @@
+(executables
+	(names enable_wins)
+	(libraries irmin irmin-unix crowbar))
