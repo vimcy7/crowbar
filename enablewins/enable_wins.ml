@@ -11,6 +11,11 @@ let q_gen =
    [ map [range 100] (fun i -> M.enable i);
      map [range 100] (fun i -> M.disable i)])
 
+let pp_q ppf q =
+    List.iter (fun e -> pp ppf "%d" e) [q] 
+    
+let q_gen = with_printer pp_q q_gen
+
   let _ =
     add_test ~name:"Commutativity" [q_gen; q_gen; q_gen] (fun lca a b ->
     let l = M.merge lca a b in
@@ -35,7 +40,7 @@ let q_gen =
     check (M.flag m1 = M.flag m2))
 
   let _ =
-    add_test ~name:"Positive" [q_gen; q_gen; q_gen] (fun lca a b ->     
+    add_test ~name:"Positivity" [q_gen; q_gen; q_gen] (fun lca a b ->     
     let l = M.merge lca a b in
     check (l >= 0))
 
@@ -44,7 +49,7 @@ let q_gen =
     let m1 = M.merge lca1 a b in
     let m2 = M.merge m1 b c in
     let m3 = M.merge lca2 m2 c in
-    (*Printf.printf("lca1 lca2 a b c : %d %d %d %d %d\n") lca1 lca2 a b c;*)
+    (*Printf.printf("m3 m2 c : %d %d %d\n") m3 m2 c;*)
     check (M.enablewins m3 m2 c))
 
  (* let _ =
